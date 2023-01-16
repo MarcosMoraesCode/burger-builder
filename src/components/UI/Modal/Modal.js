@@ -1,6 +1,6 @@
-import React from "react";
+import React, { memo } from "react";
 import classes from "./Modal.css";
-import Aux from "../../../hoc/Auxiliary";
+import Aux from "../../../hoc/Auxiliary/Auxiliary";
 import Backdrop from "../Backdrop/Backdrop";
 
 const modal = (props) => {
@@ -21,4 +21,14 @@ const modal = (props) => {
   );
 };
 
-export default modal;
+//Aqui com memo conseguimos evitar renderizações desnecessárias, pois por mais que as props mudem, o component não deve ser renderizado até ser visível.
+
+export default memo(modal, (oldProps, nextProps) => {
+  if (oldProps.show === nextProps.show) {
+    //console.log("Nao precisa renderizar");
+    return true;
+  } else {
+    //console.log("agora precisa");
+    return false;
+  }
+});

@@ -1,25 +1,37 @@
 import React from "react";
-import Aux from "../../../hoc/Auxiliary";
+import Aux from "../../../hoc/Auxiliary/Auxiliary";
+import Button from "../../UI/Button/Button";
+import { useEffect } from "react";
 
-const orderSummary = (props) => {
+const OrderSummary = (props) => {
   const ingredientsSummary = Object.keys(props.ingredients).map((igKey) => {
     return (
-      <li>
+      <li key={igKey}>
         <span style={{ textTransform: "capitalize" }}>{igKey}: </span>{" "}
         {props.ingredients[igKey]}
       </li>
     );
   });
 
+  useEffect(() => {
+    return console.log("Renderizou");
+  });
+
   return (
     <Aux>
       <h3>Your Order</h3>
-      <p>A delicious burger with the following ingredients:</p>
+      <p>A delicious burger with the following ingredients: </p>
       <ul>{ingredientsSummary}</ul>
-      <button>CANCEL</button>
-      <button>CONTINUE</button>
+      <p>Continue to Checkout?</p>
+      <p>Total: $ {props.price}</p>
+      <Button btnType="Danger" clicked={props.purchaseCanceled}>
+        CANCEL
+      </Button>
+      <Button btnType="Success" clicked={props.purchaseContinued}>
+        CONTINUE
+      </Button>
     </Aux>
   );
 };
 
-export default orderSummary;
+export default OrderSummary;

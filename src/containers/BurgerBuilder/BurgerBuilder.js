@@ -1,5 +1,5 @@
 import React, { createContext, useState } from "react";
-import Aux from "../../hoc/Auxiliary";
+import Aux from "../../hoc/Auxiliary/Auxiliary";
 import Burger from "../../components/Burger/Burger";
 import BuildControls from "../../components/Burger/BuildControls/BuildControls";
 import Modal from "../../components/UI/Modal/Modal";
@@ -31,6 +31,10 @@ const BurguerBuilder = (props) => {
 
   const purchaseCancelHandler = () => {
     setPurchasing(false);
+  };
+
+  const purchaseContinuedHandler = () => {
+    alert("You Continued!");
   };
 
   const updatePurchase = (ingredients) => {
@@ -91,7 +95,12 @@ const BurguerBuilder = (props) => {
   return (
     <Aux>
       <Modal show={purchasing} modalClosed={purchaseCancelHandler}>
-        <OrderSummary ingredients={ingredients} />
+        <OrderSummary
+          ingredients={ingredients}
+          purchaseCanceled={purchaseCancelHandler}
+          purchaseContinued={purchaseContinuedHandler}
+          price={totalPrice.toFixed(2)}
+        />
       </Modal>
       <Burger ingredients={ingredients} />
       <BuildControls

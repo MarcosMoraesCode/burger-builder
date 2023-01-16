@@ -1,5 +1,5 @@
 import classes from "./index.css";
-import Layout from "./components/Layout/Layout";
+import Layout from "./hoc/Layout/Layout";
 import BurguerBuilder from "./containers/BurgerBuilder/BurgerBuilder";
 
 function App() {
