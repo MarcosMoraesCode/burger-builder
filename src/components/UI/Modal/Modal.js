@@ -24,10 +24,10 @@ const modal = (props) => {
 //Aqui com memo conseguimos evitar renderizações desnecessárias, pois por mais que as props mudem, o component não deve ser renderizado até ser visível.
 
 export default memo(modal, (oldProps, nextProps) => {
-  if (
-    oldProps.show === nextProps.show ||
-    oldProps.checkShop === nextProps.checkShop
-  ) {
+  //console.log(oldProps, nextProps);
+  if (oldProps.show !== nextProps.show) {
+    return false;
+  } else if (oldProps.checkShop === nextProps.checkShop) {
     return true;
   } else {
     return false;

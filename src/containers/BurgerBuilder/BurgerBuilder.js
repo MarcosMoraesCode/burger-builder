@@ -6,6 +6,7 @@ import Modal from "../../components/UI/Modal/Modal";
 import OrderSummary from "../../components/Burger/OrderSummary/OrderSummary";
 import axios from "../../axiosOrders";
 import Spinner from "../../components/UI/Spinner/Spinner";
+import withErrorHandler from "../../hoc/withErrorHandler/withErrorHandler";
 
 const INGREDIENTS_PRICE = {
   salad: 0.5,
@@ -28,11 +29,11 @@ const BurguerBuilder = (props) => {
   const [loading, setLoading] = useState(false);
 
   const purchaseHandler = () => {
-    setPurchasing(true);
+    return setPurchasing(true);
   };
 
   const purchaseCancelHandler = () => {
-    setPurchasing(false);
+    return setPurchasing(false);
   };
 
   const purchaseContinuedHandler = () => {
@@ -153,4 +154,4 @@ const BurguerBuilder = (props) => {
   );
 };
 
-export default BurguerBuilder;
+export default withErrorHandler(BurguerBuilder, axios);
