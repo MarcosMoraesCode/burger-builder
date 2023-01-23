@@ -1,4 +1,5 @@
-import React, { createContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Aux from "../../hoc/Auxiliary/Auxiliary";
 import Burger from "../../components/Burger/Burger";
 import BuildControls from "../../components/Burger/BuildControls/BuildControls";
@@ -23,6 +24,7 @@ const BurguerBuilder = (props) => {
   const [purchasing, setPurchasing] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   const purchaseHandler = () => {
     return setPurchasing(true);
@@ -57,6 +59,8 @@ const BurguerBuilder = (props) => {
     };
 
     //alert("You Continued!");
+    navigate("/checkout");
+    /*
     axios
       .post("/orders.json", order)
       .then((response) => {
@@ -68,7 +72,7 @@ const BurguerBuilder = (props) => {
         setLoading(false);
         setPurchasing(false);
         console.log(error);
-      });
+      });*/
   };
 
   const updatePurchase = (ingredients) => {

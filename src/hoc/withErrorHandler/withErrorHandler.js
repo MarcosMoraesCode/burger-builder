@@ -5,15 +5,13 @@ import Modal from "../../components/UI/Modal/Modal";
 const withErrorHandler = (WrappedComponent, axios) => {
   return (props) => {
     const [error, setError] = useState(null);
-    let reqInterceptor;
-    let resInterceptor;
 
     useEffect(() => {
-      reqInterceptor = axios.interceptors.request.use((req) => {
+      let reqInterceptor = axios.interceptors.request.use((req) => {
         setError(null);
         return req;
       });
-      resInterceptor = axios.interceptors.response.use(
+      let resInterceptor = axios.interceptors.response.use(
         (res) => res,
         (error) => {
           return setError(error);
