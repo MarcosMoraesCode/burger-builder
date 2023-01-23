@@ -1,14 +1,17 @@
 import React, { useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, Routes, Route } from "react-router-dom";
 import CheckoutSummary from "../../components/Order/CheckoutSummary/CheckoutSummary";
+import ContactData from "../Checkout/ContactData/ContactData";
 
 const Checkout = () => {
   const { state } = useLocation();
-  console.log(state);
+
   const navigate = useNavigate();
 
   const checkoutContinuedHandler = () => {
-    navigate("/checkout/contact-data");
+    navigate("/checkout/contact-data", {
+      state: { ingredients: state.ingredients },
+    });
     console.log("continuou");
   };
   const checkoutCancelledHandler = () => {
@@ -22,6 +25,9 @@ const Checkout = () => {
         checkoutCancelled={checkoutCancelledHandler}
         checkoutContinued={checkoutContinuedHandler}
       />
+      <Routes>
+        <Route path="/contact-data" exact element={<ContactData />} />
+      </Routes>
     </div>
   );
 };

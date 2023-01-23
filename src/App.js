@@ -10,7 +10,7 @@ function App() {
         <Layout>
           <Routes>
             <Route path="/" exact element={<BurguerBuilder />} />
-            <Route path="/checkout" exact element={<Checkout />} />
+            <Route path="/checkout/*" exact element={<Checkout />} />
           </Routes>
         </Layout>
       </BrowserRouter>

@@ -59,7 +59,9 @@ const BurguerBuilder = (props) => {
     };
 
     //alert("You Continued!");
-    navigate("/checkout", { state: { ingredients: ingredients } });
+    navigate("/checkout", {
+      state: { ingredients: ingredients },
+    });
     /*
     axios
       .post("/orders.json", order)
