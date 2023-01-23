@@ -47,34 +47,11 @@ const BurguerBuilder = (props) => {
 
   const purchaseContinuedHandler = () => {
     setLoading(true);
-    const order = {
-      ingredients: ingredients,
-      price: totalPrice,
-      costumer: {
-        name: "Marcos",
-        adress: { street: "TestStreet", number: "10", country: "Brazil" },
-        email: "marcos@gmail.com",
-      },
-      deliveyMethod: "fastest",
-    };
 
     //alert("You Continued!");
     navigate("/checkout", {
-      state: { ingredients: ingredients },
+      state: { ingredients: ingredients, totalPrice: totalPrice },
     });
-    /*
-    axios
-      .post("/orders.json", order)
-      .then((response) => {
-        setLoading(false);
-        setPurchasing(false);
-        console.log(response);
-      })
-      .catch((error) => {
-        setLoading(false);
-        setPurchasing(false);
-        console.log(error);
-      });*/
   };
 
   const updatePurchase = (ingredients) => {

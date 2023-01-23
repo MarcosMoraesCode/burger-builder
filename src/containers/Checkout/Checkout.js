@@ -10,7 +10,7 @@ const Checkout = () => {
 
   const checkoutContinuedHandler = () => {
     navigate("/checkout/contact-data", {
-      state: { ingredients: state.ingredients },
+      state: { ingredients: state.ingredients, totalPrice: state.totalPrice },
     });
     console.log("continuou");
   };
