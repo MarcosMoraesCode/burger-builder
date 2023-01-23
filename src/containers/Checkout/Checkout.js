@@ -1,14 +1,10 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import CheckoutSummary from "../../components/Order/CheckoutSummary/CheckoutSummary";
 
 const Checkout = () => {
-  const [ingredients, setIngredients] = useState({
-    salad: 1,
-    cheese: 1,
-    meat: 1,
-    bacon: 1,
-  });
+  const { state } = useLocation();
+  console.log(state);
   const navigate = useNavigate();
 
   const checkoutContinuedHandler = () => {
@@ -22,7 +18,7 @@ const Checkout = () => {
   return (
     <div>
       <CheckoutSummary
-        ingredients={ingredients}
+        ingredients={state.ingredients}
         checkoutCancelled={checkoutCancelledHandler}
         checkoutContinued={checkoutContinuedHandler}
       />

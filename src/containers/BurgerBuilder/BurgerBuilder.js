@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import Aux from "../../hoc/Auxiliary/Auxiliary";
 import Burger from "../../components/Burger/Burger";
@@ -59,7 +59,7 @@ const BurguerBuilder = (props) => {
     };
 
     //alert("You Continued!");
-    navigate("/checkout");
+    navigate("/checkout", { state: { ingredients: ingredients } });
     /*
     axios
       .post("/orders.json", order)
