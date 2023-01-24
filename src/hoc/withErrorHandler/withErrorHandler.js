@@ -5,24 +5,33 @@ import Modal from "../../components/UI/Modal/Modal";
 const withErrorHandler = (WrappedComponent, axios) => {
   return (props) => {
     const [error, setError] = useState(null);
+    //const [reqInterceptor, setReqInterceptor] = useState(null);
+    //const [resInterceptor, setResInterceptor] = useState(null);
 
-    useEffect(() => {
-      let reqInterceptor = axios.interceptors.request.use((req) => {
+    let teste1 = axios.interceptors.request.use(
+      (req) => {
+        // console.log(req);
         setError(null);
         return req;
-      });
-      let resInterceptor = axios.interceptors.response.use(
-        (res) => res,
-        (error) => {
-          return setError(error);
-        }
-      );
+      },
+      (error) => {
+        setError(error);
+        return console.log("O erro de requisição tá aqui:", error);
+      }
+    );
+    //setReqInterceptor(teste1);
+    let teste2 = axios.interceptors.response.use(
+      (res) => {
+        //console.log(res);
+        return res;
+      },
+      (error) => {
+        setError(error);
+        return console.log("O erro de resposta tá aqui:", error);
+      }
+    );
 
-      return () => {
-        axios.interceptors.request.eject(reqInterceptor);
-        axios.interceptors.response.eject(resInterceptor);
-      };
-    });
+    //setResInterceptor(teste2);
 
     const errorConfirmedHandler = () => {
       setError(null);

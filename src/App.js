@@ -1,6 +1,7 @@
 import Layout from "./hoc/Layout/Layout";
 import BurguerBuilder from "./containers/BurgerBuilder/BurgerBuilder";
 import Checkout from "./containers/Checkout/Checkout";
+import Orders from "./containers/Orders/Orders";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 function App() {
@@ -11,6 +12,7 @@ function App() {
           <Routes>
             <Route path="/" exact element={<BurguerBuilder />} />
             <Route path="/checkout/*" exact element={<Checkout />} />
+            <Route path="/orders" exact element={<Orders />} />
           </Routes>
         </Layout>
       </BrowserRouter>
