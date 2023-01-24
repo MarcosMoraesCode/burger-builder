@@ -64,20 +64,19 @@ const ContactData = () => {
     },
   });
 
-  console.log(state);
   const order = {
     ingredients: state.ingredients,
-    price: state.totalPrice,
+    price: state.totalPrice.toFixed(2),
     costumer: {
-      name: userData.name,
+      name: userData.name.value,
       adress: {
-        street: userData.street,
-        zipCode: userData.zipCode,
-        country: userData.country,
+        street: userData.street.value,
+        zipCode: userData.zipCode.value,
+        country: userData.country.value,
       },
-      email: userData.email,
+      email: userData.email.value,
     },
-    deliveyMethod: "fastest",
+    deliveyMethod: userData.deliveryMethod.value,
   };
 
   /*
@@ -114,6 +113,16 @@ const ContactData = () => {
       config: userData[key],
     });
   }
+  const inputChangedHandler = (event, inputIdentifier) => {
+    const updatedUserData = { ...userData };
+    const updatedFormElement = { ...updatedUserData[inputIdentifier] };
+    updatedFormElement.value = event.target.value;
+    updatedUserData[inputIdentifier] = updatedFormElement;
+
+    setUserData(updatedUserData);
+  };
+
+  //console.log(userData);
 
   let form = (
     <form>
@@ -124,6 +133,7 @@ const ContactData = () => {
             elementType={input.config.elementType}
             elementConfig={input.config.elementConfig}
             value={input.config.value}
+            changed={(event) => inputChangedHandler(event, input.id)}
           />
         );
       })}
