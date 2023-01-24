@@ -19,6 +19,10 @@ const ContactData = () => {
         placeholder: "Your Name",
       },
       value: "",
+      validation: {
+        required: true,
+        valid: false,
+      },
     },
     email: {
       elementType: "input",
@@ -27,6 +31,10 @@ const ContactData = () => {
         placeholder: "Your E-mail",
       },
       value: "",
+      validation: {
+        required: true,
+        valid: false,
+      },
     },
     street: {
       elementType: "input",
@@ -35,6 +43,10 @@ const ContactData = () => {
         placeholder: "Street",
       },
       value: "",
+      validation: {
+        required: true,
+        valid: false,
+      },
     },
     zipCode: {
       elementType: "input",
@@ -43,6 +55,12 @@ const ContactData = () => {
         placeholder: "ZIP Code",
       },
       value: "",
+      validation: {
+        required: true,
+        valid: false,
+        minLength: 5,
+        maxLength: 5,
+      },
     },
     country: {
       elementType: "input",
@@ -51,6 +69,10 @@ const ContactData = () => {
         placeholder: "Country",
       },
       value: "",
+      validation: {
+        required: true,
+        valid: false,
+      },
     },
     deliveryMethod: {
       elementType: "select",
@@ -108,15 +130,37 @@ const ContactData = () => {
 
   const formsElementArray = [];
   for (let key in userData) {
+    console.log(userData[key]);
     formsElementArray.push({
       id: key,
       config: userData[key],
     });
   }
+
+  const checkValidity = (value, rules) => {
+    let isValid = false;
+
+    if (rules.required) {
+      isValid = value.trim() !== "";
+    }
+
+    if (rules.minLength) {
+      isValid =
+        value.length >= rules.minLength && value.length <= rules.maxLength;
+    }
+
+    return isValid;
+  };
+
   const inputChangedHandler = (event, inputIdentifier) => {
     const updatedUserData = { ...userData };
     const updatedFormElement = { ...updatedUserData[inputIdentifier] };
     updatedFormElement.value = event.target.value;
+    updatedFormElement.validation.valid = checkValidity(
+      updatedFormElement.value,
+      updatedFormElement.validation
+    );
+
     updatedUserData[inputIdentifier] = updatedFormElement;
 
     setUserData(updatedUserData);
@@ -134,6 +178,7 @@ const ContactData = () => {
             elementConfig={input.config.elementConfig}
             value={input.config.value}
             changed={(event) => inputChangedHandler(event, input.id)}
+            invalid={!input.config.validation?.valid}
           />
         );
       })}
