@@ -22,7 +22,7 @@ const Orders = () => {
               bacon={order.ingredients.bacon}
               meat={order.ingredients.meat}
               cheese={order.ingredients.cheese}
-              price={order.price}
+              price={order.price.toFixed(2)}
             />
           );
         });
