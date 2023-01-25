@@ -88,7 +88,7 @@ const ContactData = () => {
         ],
       },
       validation: {},
-      value: "",
+      value: "fastest",
     },
   });
 
