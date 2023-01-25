@@ -23,6 +23,7 @@ const ContactData = () => {
         required: true,
         valid: false,
       },
+      touched: false,
     },
     email: {
       elementType: "input",
@@ -35,6 +36,7 @@ const ContactData = () => {
         required: true,
         valid: false,
       },
+      touched: false,
     },
     street: {
       elementType: "input",
@@ -47,6 +49,7 @@ const ContactData = () => {
         required: true,
         valid: false,
       },
+      touched: false,
     },
     zipCode: {
       elementType: "input",
@@ -61,6 +64,7 @@ const ContactData = () => {
         minLength: 5,
         maxLength: 5,
       },
+      touched: false,
     },
     country: {
       elementType: "input",
@@ -73,6 +77,7 @@ const ContactData = () => {
         required: true,
         valid: false,
       },
+      touched: false,
     },
     deliveryMethod: {
       elementType: "select",
@@ -118,33 +123,36 @@ const ContactData = () => {
         //setLoading(false);
         //setPurchasing(false);
         setLoading(false);
-        console.log(response);
+        //console.log(response);
       })
       .catch((error) => {
         //setLoading(false);
         //setPurchasing(false);
         setLoading(false);
-        console.log(error);
+        // console.log(error);
       });
   };
 
   const formsElementArray = [];
   for (let key in userData) {
-    console.log(userData[key]);
     formsElementArray.push({
       id: key,
       config: userData[key],
     });
   }
 
-  const checkValidity = (value, rules) => {
+  const checkValidity = (value, rules, touched) => {
     let isValid = false;
 
-    if (rules.required) {
+    if (touched === false) {
+      return;
+    }
+
+    if (rules?.required) {
       isValid = value.trim() !== "";
     }
 
-    if (rules.minLength) {
+    if (rules?.minLength) {
       isValid =
         value.length >= rules.minLength && value.length <= rules.maxLength;
     }
@@ -156,20 +164,27 @@ const ContactData = () => {
     const updatedUserData = { ...userData };
     const updatedFormElement = { ...updatedUserData[inputIdentifier] };
     updatedFormElement.value = event.target.value;
+    updatedFormElement.touched = true;
     updatedFormElement.validation.valid = checkValidity(
       updatedFormElement.value,
-      updatedFormElement.validation
+      updatedFormElement.validation,
+      updatedFormElement.touched
     );
 
     updatedUserData[inputIdentifier] = updatedFormElement;
 
     setUserData(updatedUserData);
   };
+  const validPropsArray = [];
+  for (let key in userData) {
+    validPropsArray.push(userData[key]?.validation?.valid ?? true);
+  }
 
   //console.log(userData);
 
   let form = (
     <form>
+      {console.log(validPropsArray)}
       {formsElementArray.map((input) => {
         return (
           <Input
@@ -179,6 +194,8 @@ const ContactData = () => {
             value={input.config.value}
             changed={(event) => inputChangedHandler(event, input.id)}
             invalid={!input.config.validation?.valid}
+            shouldValidate={input.config.validation}
+            touched={input.config.touched}
           />
         );
       })}
@@ -192,7 +209,11 @@ const ContactData = () => {
     <div className={classes.ContactData}>
       <h4>Entry your contact data</h4>
       {form}
-      <Button btnType="Success" clicked={submitOrderHandler}>
+      <Button
+        btnType="Success"
+        clicked={submitOrderHandler}
+        disabled={validPropsArray.includes(false) ? true : false}
+      >
         ORDER
       </Button>
     </div>
