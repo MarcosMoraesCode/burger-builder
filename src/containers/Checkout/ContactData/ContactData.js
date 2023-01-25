@@ -144,10 +144,17 @@ const ContactData = () => {
 
   const checkValidity = (value, rules, touched) => {
     let isValid = false;
+    console.log(rules?.required);
 
-    if (rules.valid) {
+    if (
+      rules?.valid === undefined ||
+      (rules?.valid === true && rules?.required === undefined)
+    ) {
       return (isValid = true);
     }
+    //if (rules.valid) {
+    //isValid = true;
+    //}
 
     if (touched === false) {
       return;
