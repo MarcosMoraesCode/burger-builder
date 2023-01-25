@@ -87,6 +87,7 @@ const ContactData = () => {
           { value: "cheapest", displayValue: "Cheapest" },
         ],
       },
+      validation: {},
       value: "",
     },
   });
@@ -144,6 +145,10 @@ const ContactData = () => {
   const checkValidity = (value, rules, touched) => {
     let isValid = false;
 
+    if (rules.valid) {
+      return (isValid = true);
+    }
+
     if (touched === false) {
       return;
     }
@@ -165,6 +170,7 @@ const ContactData = () => {
     const updatedFormElement = { ...updatedUserData[inputIdentifier] };
     updatedFormElement.value = event.target.value;
     updatedFormElement.touched = true;
+
     updatedFormElement.validation.valid = checkValidity(
       updatedFormElement.value,
       updatedFormElement.validation,
