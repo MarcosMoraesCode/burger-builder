@@ -88,14 +88,15 @@ const BurguerBuilder = (props) => {
     const priceAddition = INGREDIENTS_PRICE[type];
     const oldPrice = totalPrice;
     const newPrice = oldPrice + priceAddition;
-
+    console.log(type);
     //setIngredients(updatedIngredients);
-    dispatch(addIngredients());
+    dispatch(addIngredients(type));
     setTotalPrice(newPrice);
     // updatePurchase(updatedIngredients);
   };
 
   const removeIngredientsHandler = (type) => {
+    console.log(type);
     /*const oldCount = ingredients[type];
     const updatedCount = oldCount - 1;
     if (oldCount <= 0) {
@@ -110,7 +111,7 @@ const BurguerBuilder = (props) => {
     const oldPrice = totalPrice;
     const newPrice = oldPrice - priceDeduction;
 
-    dispatch(removeIngredients());
+    dispatch(removeIngredients(type));
     //setIngredients(updatedIngredients);
     setTotalPrice(newPrice);
     //updatePurchase(updatedIngredients);
