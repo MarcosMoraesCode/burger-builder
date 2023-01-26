@@ -22,7 +22,10 @@ const INGREDIENTS_PRICE = {
 };
 
 const BurguerBuilder = (props) => {
-  const [ingredients, setIngredients] = useState(null);
+  const ingredients = useSelector((state) => state.ingredients);
+  const dispatch = useDispatch();
+
+  //const [ingredients, setIngredients] = useState(null);
 
   const [totalPrice, setTotalPrice] = useState(4);
   const [purchasable, setPurchasable] = useState(false);
@@ -39,7 +42,7 @@ const BurguerBuilder = (props) => {
     return setPurchasing(false);
   };
 
-  useEffect(() => {
+  /*useEffect(() => {
     axios
       .get("/ingredients.json")
       .then((response) => {
@@ -48,7 +51,7 @@ const BurguerBuilder = (props) => {
       .catch((error) => {
         return setError(error);
       });
-  }, []);
+  }, []);*/
 
   const purchaseContinuedHandler = () => {
     setLoading(true);
@@ -72,7 +75,7 @@ const BurguerBuilder = (props) => {
   };
 
   const addIngredientsHandler = (type) => {
-    const oldCount = ingredients[type];
+    /*const oldCount = ingredients[type];
     const updatedCount = oldCount + 1;
     const updatedIngredients = {
       ...ingredients,
@@ -81,15 +84,19 @@ const BurguerBuilder = (props) => {
 
     const priceAddition = INGREDIENTS_PRICE[type];
     const oldPrice = totalPrice;
+    const newPrice = oldPrice + priceAddition;*/
+    const priceAddition = INGREDIENTS_PRICE[type];
+    const oldPrice = totalPrice;
     const newPrice = oldPrice + priceAddition;
 
-    setIngredients(updatedIngredients);
+    //setIngredients(updatedIngredients);
+    dispatch(addIngredients());
     setTotalPrice(newPrice);
-    updatePurchase(updatedIngredients);
+    // updatePurchase(updatedIngredients);
   };
 
   const removeIngredientsHandler = (type) => {
-    const oldCount = ingredients[type];
+    /*const oldCount = ingredients[type];
     const updatedCount = oldCount - 1;
     if (oldCount <= 0) {
       return;
@@ -97,15 +104,16 @@ const BurguerBuilder = (props) => {
     const updatedIngredients = {
       ...ingredients,
     };
-    updatedIngredients[type] = updatedCount;
+    updatedIngredients[type] = updatedCount;*/
 
     const priceDeduction = INGREDIENTS_PRICE[type];
     const oldPrice = totalPrice;
     const newPrice = oldPrice - priceDeduction;
 
-    setIngredients(updatedIngredients);
+    dispatch(removeIngredients());
+    //setIngredients(updatedIngredients);
     setTotalPrice(newPrice);
-    updatePurchase(updatedIngredients);
+    //updatePurchase(updatedIngredients);
   };
 
   const disabledInfo = { ...ingredients };

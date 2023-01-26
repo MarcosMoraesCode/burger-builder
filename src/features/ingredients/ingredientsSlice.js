@@ -11,11 +11,19 @@ export const ingredientsSlice = createSlice({
   name: "ingredients",
   initialState,
   reducers: {
-    addIngredients: (state, action) => {
-      state[action] += 1;
+    addIngredients: (state) => {
+      //state[action] += 1;
+      state.salad += 1;
+      state.bacon += 1;
+      state.cheese += 1;
+      state.meat += 1;
     },
-    removeIngredients: (state, action) => {
-      state[action] -= 1;
+    removeIngredients: (state) => {
+      //state[action] -= 1;
+      state.salad -= 1;
+      state.bacon -= 1;
+      state.cheese -= 1;
+      state.meat -= 1;
     },
   },
 });
