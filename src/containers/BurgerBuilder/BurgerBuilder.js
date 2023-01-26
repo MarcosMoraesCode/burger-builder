@@ -8,6 +8,11 @@ import OrderSummary from "../../components/Burger/OrderSummary/OrderSummary";
 import axios from "../../axiosOrders";
 import Spinner from "../../components/UI/Spinner/Spinner";
 import withErrorHandler from "../../hoc/withErrorHandler/withErrorHandler";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  addIngredients,
+  removeIngredients,
+} from "../../features/ingredients/ingredientsSlice";
 
 const INGREDIENTS_PRICE = {
   salad: 0.5,
