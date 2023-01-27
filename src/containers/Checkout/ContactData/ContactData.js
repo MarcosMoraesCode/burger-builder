@@ -5,12 +5,14 @@ import classes from "./ContactData.css";
 import axios from "../../../axiosOrders";
 import Spinner from "../../../components/UI/Spinner/Spinner";
 import Input from "../../../components/UI/Input/Input";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { restartIngredients } from "../../../features/ingredients/ingredientsSlice";
 
 const ContactData = () => {
   const ingredients = useSelector(
     (state) => state.initialIngredients.ingredients
   );
+  const dispatch = useDispatch();
 
   const totalPrice = useSelector((state) => state.initialIngredients.price);
 
@@ -126,11 +128,13 @@ const ContactData = () => {
         //setPurchasing(false);
         setLoading(false);
         //console.log(response);
+        dispatch(restartIngredients());
       })
       .catch((error) => {
         //setLoading(false);
         //setPurchasing(false);
         setLoading(false);
+        dispatch(restartIngredients());
         // console.log(error);
       });
   };
