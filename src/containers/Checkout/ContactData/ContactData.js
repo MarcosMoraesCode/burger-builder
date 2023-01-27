@@ -5,9 +5,15 @@ import classes from "./ContactData.css";
 import axios from "../../../axiosOrders";
 import Spinner from "../../../components/UI/Spinner/Spinner";
 import Input from "../../../components/UI/Input/Input";
+import { useSelector } from "react-redux";
 
 const ContactData = () => {
-  const { state } = useLocation();
+  const ingredients = useSelector(
+    (state) => state.initialIngredients.ingredients
+  );
+
+  const totalPrice = useSelector((state) => state.initialIngredients.price);
+
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
 
@@ -93,8 +99,8 @@ const ContactData = () => {
   });
 
   const order = {
-    ingredients: state.ingredients,
-    price: state.totalPrice.toFixed(2),
+    ingredients: ingredients,
+    price: totalPrice.toFixed(2),
     costumer: {
       name: userData.name.value,
       adress: {
@@ -115,12 +121,7 @@ const ContactData = () => {
     axios
       .post("/orders.json", order)
       .then((response) => {
-        navigate("/", {
-          state: {
-            ingredients: state.ingredients,
-            totalPrice: state.totalPrice,
-          },
-        });
+        navigate("/");
         //setLoading(false);
         //setPurchasing(false);
         setLoading(false);

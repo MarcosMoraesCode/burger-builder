@@ -3,6 +3,6 @@ import ingredientsReducer from "./features/ingredients/ingredientsSlice";
 
 export const store = configureStore({
   reducer: {
-    ingredients: ingredientsReducer,
+    initialIngredients: ingredientsReducer,
   },
 });

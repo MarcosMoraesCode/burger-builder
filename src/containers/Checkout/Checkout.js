@@ -2,17 +2,17 @@ import React, { useState } from "react";
 import { useNavigate, useLocation, Routes, Route } from "react-router-dom";
 import CheckoutSummary from "../../components/Order/CheckoutSummary/CheckoutSummary";
 import ContactData from "../Checkout/ContactData/ContactData";
+import { useSelector } from "react-redux";
 
 const Checkout = () => {
-  const { state } = useLocation();
+  const ingredients = useSelector(
+    (state) => state.initialIngredients.ingredients
+  );
 
   const navigate = useNavigate();
 
   const checkoutContinuedHandler = () => {
-    navigate("/checkout/contact-data", {
-      state: { ingredients: state.ingredients, totalPrice: state.totalPrice },
-    });
-    console.log("continuou");
+    navigate("/checkout/contact-data");
   };
   const checkoutCancelledHandler = () => {
     navigate(-1);
@@ -21,7 +21,7 @@ const Checkout = () => {
   return (
     <div>
       <CheckoutSummary
-        ingredients={state.ingredients}
+        ingredients={ingredients}
         checkoutCancelled={checkoutCancelledHandler}
         checkoutContinued={checkoutContinuedHandler}
       />

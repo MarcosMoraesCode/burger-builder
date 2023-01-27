@@ -1,29 +1,26 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  salad: 0,
-  bacon: 0,
-  meat: 0,
-  cheese: 0,
+  ingredients: {
+    salad: 0,
+    bacon: 0,
+    meat: 0,
+    cheese: 0,
+  },
+  price: 4,
 };
 
 export const ingredientsSlice = createSlice({
-  name: "ingredients",
+  name: "initialIngredients",
   initialState,
   reducers: {
     addIngredients: (state, action) => {
-      state[action.payload] += 1;
-      //state.salad += 1;
-      //state.bacon += 1;
-      //state.cheese += 1;
-      //state.meat += 1;
+      state.ingredients[action.payload.type] += 1;
+      state.price += action.payload.ingredientPrice;
     },
     removeIngredients: (state, action) => {
-      state[action.payload] -= 1;
-      //state.salad -= 1;
-      //state.bacon -= 1;
-      //state.cheese -= 1;
-      //state.meat -= 1;
+      state.ingredients[action.payload.type] -= 1;
+      state.price -= action.payload.ingredientPrice;
     },
   },
 });

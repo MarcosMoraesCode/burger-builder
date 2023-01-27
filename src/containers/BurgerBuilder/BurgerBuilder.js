@@ -22,13 +22,17 @@ const INGREDIENTS_PRICE = {
 };
 
 const BurguerBuilder = (props) => {
-  const ingredients = useSelector((state) => state.ingredients);
+  const ingredients = useSelector(
+    (state) => state.initialIngredients.ingredients
+  );
+
   const dispatch = useDispatch();
 
   //const [ingredients, setIngredients] = useState(null);
 
-  const [totalPrice, setTotalPrice] = useState(4);
-  const [purchasable, setPurchasable] = useState(false);
+  const totalPrice = useSelector((state) => state.initialIngredients.price);
+  // const [totalPrice, setTotalPrice] = useState(4);
+
   const [purchasing, setPurchasing] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -57,9 +61,7 @@ const BurguerBuilder = (props) => {
     setLoading(true);
 
     //alert("You Continued!");
-    navigate("/checkout", {
-      state: { ingredients: ingredients, totalPrice: totalPrice },
-    });
+    navigate("/checkout");
   };
 
   const updatePurchase = (ingredients) => {
@@ -71,53 +73,30 @@ const BurguerBuilder = (props) => {
         return acc + igQnty;
       }, 0);
 
-    setPurchasable(sum > 0);
+    return sum > 0;
   };
 
   const addIngredientsHandler = (type) => {
-    /*const oldCount = ingredients[type];
-    const updatedCount = oldCount + 1;
-    const updatedIngredients = {
-      ...ingredients,
-    };
-    updatedIngredients[type] = updatedCount;
+    const priceAddition = INGREDIENTS_PRICE[type];
 
-    const priceAddition = INGREDIENTS_PRICE[type];
-    const oldPrice = totalPrice;
-    const newPrice = oldPrice + priceAddition;*/
-    const priceAddition = INGREDIENTS_PRICE[type];
-    const oldPrice = totalPrice;
-    const newPrice = oldPrice + priceAddition;
-    console.log(type);
-    //setIngredients(updatedIngredients);
-    dispatch(addIngredients(type));
-    setTotalPrice(newPrice);
-    // updatePurchase(updatedIngredients);
+    dispatch(addIngredients({ type: type, ingredientPrice: priceAddition }));
+
+    updatePurchase(ingredients);
+    //setPurchasable(true);
   };
 
   const removeIngredientsHandler = (type) => {
-    console.log(type);
-    /*const oldCount = ingredients[type];
-    const updatedCount = oldCount - 1;
-    if (oldCount <= 0) {
-      return;
-    }
-    const updatedIngredients = {
-      ...ingredients,
-    };
-    updatedIngredients[type] = updatedCount;*/
-
     const priceDeduction = INGREDIENTS_PRICE[type];
-    const oldPrice = totalPrice;
-    const newPrice = oldPrice - priceDeduction;
 
-    dispatch(removeIngredients(type));
-    //setIngredients(updatedIngredients);
-    setTotalPrice(newPrice);
-    //updatePurchase(updatedIngredients);
+    dispatch(
+      removeIngredients({ type: type, ingredientPrice: priceDeduction })
+    );
+
+    updatePurchase(ingredients);
   };
 
   const disabledInfo = { ...ingredients };
+  //console.log(disabledInfo);
 
   for (let key in disabledInfo) {
     disabledInfo[key] = disabledInfo[key] <= 0;
@@ -136,7 +115,7 @@ const BurguerBuilder = (props) => {
           removeIngredients={removeIngredientsHandler}
           disabled={disabledInfo}
           price={totalPrice}
-          purchasable={purchasable}
+          purchasable={updatePurchase(ingredients)}
           ordered={purchaseHandler}
         />
       </Aux>
