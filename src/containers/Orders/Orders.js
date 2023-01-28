@@ -1,16 +1,21 @@
 import axios from "./../../axiosOrders";
-import React, { useEffect, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import Order from "../../components/Order/Order";
 import withErrorHandler from "../../hoc/withErrorHandler/withErrorHandler";
+import Spinner from "../../components/UI/Spinner/Spinner";
 
 const Orders = () => {
   let fetchedOrders = [];
   const [orders, setOrders] = useState([]);
+  const [loading, setLoading] = useState(false);
 
+  let ordersContainer = orders;
   useEffect(() => {
+    setLoading(true);
     axios
       .get("/orders.json")
       .then((response) => {
+        setLoading(false);
         for (let key in response.data) {
           fetchedOrders.push({ ...response.data[key], id: key });
         }
@@ -30,11 +35,18 @@ const Orders = () => {
         // console.log(orders);
       })
       .catch((err) => {
-        console.log(err);
+        setLoading(false);
+        //console.log("passou em orders");
       });
   }, []);
 
-  return <div>{orders}</div>;
+  ordersContainer = orders;
+
+  if (loading) {
+    ordersContainer = <Spinner />;
+  }
+
+  return <div>{ordersContainer}</div>;
 };
 
 export default withErrorHandler(Orders, axios);

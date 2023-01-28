@@ -1,37 +1,34 @@
 import React, { useEffect, useState } from "react";
 import Aux from "../Auxiliary/Auxiliary";
 import Modal from "../../components/UI/Modal/Modal";
+import Spinner from "../../components/UI/Spinner/Spinner";
 
 const withErrorHandler = (WrappedComponent, axios) => {
   return (props) => {
     const [error, setError] = useState(null);
-    //const [reqInterceptor, setReqInterceptor] = useState(null);
-    //const [resInterceptor, setResInterceptor] = useState(null);
 
-    let teste1 = axios.interceptors.request.use(
+    const reqInterceptor = axios.interceptors.request.use(
       (req) => {
-        // console.log(req);
         setError(null);
         return req;
       },
-      (error) => {
-        setError(error);
-        return console.log("O erro de requisição tá aqui:", error);
+      (err) => {
+        setError(err);
       }
     );
-    //setReqInterceptor(teste1);
-    let teste2 = axios.interceptors.response.use(
-      (res) => {
-        //console.log(res);
-        return res;
-      },
-      (error) => {
-        setError(error);
-        return console.log("O erro de resposta tá aqui:", error);
+    const resInterceptor = axios.interceptors.response.use(
+      (res) => res,
+      (err) => {
+        setError(err);
       }
     );
 
-    //setResInterceptor(teste2);
+    useEffect(() => {
+      return () => {
+        axios.interceptors.request.eject(reqInterceptor);
+        axios.interceptors.response.eject(resInterceptor);
+      };
+    }, [reqInterceptor, resInterceptor]);
 
     const errorConfirmedHandler = () => {
       setError(null);

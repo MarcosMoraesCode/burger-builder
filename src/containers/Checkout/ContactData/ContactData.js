@@ -7,6 +7,7 @@ import Spinner from "../../../components/UI/Spinner/Spinner";
 import Input from "../../../components/UI/Input/Input";
 import { useDispatch, useSelector } from "react-redux";
 import { restartIngredients } from "../../../features/ingredients/ingredientsSlice";
+import withErrorHandler from "../../../hoc/withErrorHandler/withErrorHandler";
 
 const ContactData = () => {
   const ingredients = useSelector(
@@ -121,7 +122,7 @@ const ContactData = () => {
   const submitOrderHandler = () => {
     setLoading(true);
     axios
-      .post("/orders.json", order)
+      .post("/orders.jn", order)
       .then((response) => {
         navigate("/");
         //setLoading(false);
@@ -133,8 +134,8 @@ const ContactData = () => {
       .catch((error) => {
         //setLoading(false);
         //setPurchasing(false);
-        setLoading(false);
-        dispatch(restartIngredients());
+        //setLoading(false);
+        //dispatch(restartIngredients());
         // console.log(error);
       });
   };
@@ -238,4 +239,4 @@ const ContactData = () => {
   );
 };
 
-export default ContactData;
+export default withErrorHandler(ContactData, axios);
