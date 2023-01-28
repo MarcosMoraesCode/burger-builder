@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import Aux from "../Auxiliary/Auxiliary";
 import Modal from "../../components/UI/Modal/Modal";
-import Spinner from "../../components/UI/Spinner/Spinner";
 
 const withErrorHandler = (WrappedComponent, axios) => {
   return (props) => {
     const [error, setError] = useState(null);
+    console.log(error);
 
     const reqInterceptor = axios.interceptors.request.use(
       (req) => {
@@ -17,7 +17,10 @@ const withErrorHandler = (WrappedComponent, axios) => {
       }
     );
     const resInterceptor = axios.interceptors.response.use(
-      (res) => res,
+      (res) => {
+        setError(null);
+        return res;
+      },
       (err) => {
         setError(err);
       }

@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { restartIngredients } from "../../../features/ingredients/ingredientsSlice";
 import withErrorHandler from "../../../hoc/withErrorHandler/withErrorHandler";
 
-const ContactData = () => {
+const ContactData = (props) => {
   const ingredients = useSelector(
     (state) => state.initialIngredients.ingredients
   );
@@ -122,13 +122,13 @@ const ContactData = () => {
   const submitOrderHandler = () => {
     setLoading(true);
     axios
-      .post("/orders.jn", order)
+      .post("/orders.json", order)
       .then((response) => {
         navigate("/");
         //setLoading(false);
         //setPurchasing(false);
         setLoading(false);
-        //console.log(response);
+        console.log(response);
         dispatch(restartIngredients());
       })
       .catch((error) => {
@@ -136,7 +136,7 @@ const ContactData = () => {
         //setPurchasing(false);
         //setLoading(false);
         //dispatch(restartIngredients());
-        // console.log(error);
+        console.log(error);
       });
   };
 
@@ -203,7 +203,7 @@ const ContactData = () => {
 
   let form = (
     <form>
-      {console.log(validPropsArray)}
+      {/*console.log(validPropsArray)*/}
       {formsElementArray.map((input) => {
         return (
           <Input

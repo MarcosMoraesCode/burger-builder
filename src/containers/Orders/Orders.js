@@ -32,11 +32,11 @@ const Orders = () => {
           );
         });
         setOrders(orders);
-        // console.log(orders);
+        console.log(response);
       })
       .catch((err) => {
         setLoading(false);
-        //console.log("passou em orders");
+        console.log(err);
       });
   }, []);
 
