@@ -7,16 +7,14 @@ import Spinner from "../../components/UI/Spinner/Spinner";
 import { addOrder, fetchOrders } from "../../features/orders/ordersSlice";
 
 const Orders = () => {
-  let fetchedOrders = [];
   const orders = useSelector((state) => state.initialOrders.orders);
   //const [orders, setOrders] = useState([]);
-  const [loading, setLoading] = useState(false);
+
   const dispatch = useDispatch();
 
   let ordersContainer = <Spinner />;
 
   useEffect(() => {
-    setLoading(true);
     dispatch(fetchOrders());
   }, []);
 

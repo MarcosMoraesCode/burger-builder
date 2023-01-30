@@ -6,7 +6,7 @@ import {
 import axios from "../../axiosOrders";
 
 const initialState = {
-  ingredients: null,
+  ingredients: {},
   price: 4,
   error: null,
 };

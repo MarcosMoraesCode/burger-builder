@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Button from "../../../components/UI/Button/Button";
 import classes from "./ContactData.css";
@@ -8,18 +8,23 @@ import Input from "../../../components/UI/Input/Input";
 import { useDispatch, useSelector } from "react-redux";
 import { restartIngredients } from "../../../features/ingredients/ingredientsSlice";
 import withErrorHandler from "../../../hoc/withErrorHandler/withErrorHandler";
+import {
+  contactDataSlice,
+  fetchContactData,
+  rejected,
+} from "../../../features/contactData/contactDataSlice";
 
 const ContactData = (props) => {
   const ingredients = useSelector(
     (state) => state.initialIngredients.ingredients
   );
-  const dispatch = useDispatch();
-
   const totalPrice = useSelector((state) => state.initialIngredients.price);
+  const orderStatus = useSelector((state) => state.contactData.orderStatus);
+  const dispatch = useDispatch();
 
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-
+  const [error, setError] = useState(false);
   const [userData, setUserData] = useState({
     name: {
       elementType: "input",
@@ -119,24 +124,22 @@ const ContactData = (props) => {
   /*
    */
 
-  const submitOrderHandler = () => {
+  useEffect(() => {
+    if (error) {
+      dispatch(rejected());
+    }
+  }, [error]);
+
+  const submitOrderHandler = async () => {
     setLoading(true);
-    axios
-      .post("/orders.json", order)
-      .then((response) => {
-        navigate("/");
-        //setLoading(false);
-        //setPurchasing(false);
-        setLoading(false);
-        console.log(response);
-        dispatch(restartIngredients());
-      })
-      .catch((error) => {
-        //setLoading(false);
-        //setPurchasing(false);
-        //setLoading(false);
-        //dispatch(restartIngredients());
-        console.log(error);
+    await dispatch(fetchContactData(order))
+      .unwrap()
+      .then((res) => {
+        setLoading(true);
+        if (res === false) {
+          setError(true);
+        }
+        setTimeout(() => setLoading(false), 1000);
       });
   };
 
@@ -203,7 +206,6 @@ const ContactData = (props) => {
 
   let form = (
     <form>
-      {/*console.log(validPropsArray)*/}
       {formsElementArray.map((input) => {
         return (
           <Input
@@ -220,10 +222,14 @@ const ContactData = (props) => {
       })}
     </form>
   );
+
   if (loading) {
     form = <Spinner />;
   }
 
+  if (orderStatus === "rejeitado") {
+    return (form = <div>DEU RUIM</div>);
+  }
   return (
     <div className={classes.ContactData}>
       <h4>Entry your contact data</h4>

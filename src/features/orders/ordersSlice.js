@@ -13,7 +13,7 @@ const initialState = {
 export const fetchOrders = createAsyncThunk("orders/fetchOrders", async () => {
   try {
     const response = await axios.get("/orders.json");
-    console.log("concluiu!");
+
     return response.data;
   } catch (err) {
     return isRejectedWithValue(err);
