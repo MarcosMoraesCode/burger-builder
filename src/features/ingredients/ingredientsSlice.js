@@ -1,9 +1,14 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import {
+  createSlice,
+  createAsyncThunk,
+  isRejectedWithValue,
+} from "@reduxjs/toolkit";
 import axios from "../../axiosOrders";
 
 const initialState = {
-  ingredients: {},
+  ingredients: null,
   price: 4,
+  error: null,
 };
 
 export const fetchIngredients = createAsyncThunk(
@@ -11,9 +16,10 @@ export const fetchIngredients = createAsyncThunk(
   async () => {
     try {
       const response = await axios.get("/ingredients.json");
+
       return response.data;
-    } catch (error) {
-      return error.message;
+    } catch (err) {
+      return isRejectedWithValue(err);
     }
   }
 );
@@ -41,6 +47,10 @@ export const ingredientsSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(fetchIngredients.fulfilled, (state, action) => {
       state.ingredients = action.payload;
+    });
+    builder.addCase(fetchIngredients.rejected, (state) => {
+      console.log("passou aqui");
+      state.error = true;
     });
   },
 });

@@ -26,6 +26,7 @@ const BurguerBuilder = (props) => {
   const ingredients = useSelector(
     (state) => state.initialIngredients.ingredients
   );
+  const error = useSelector((state) => state.initialIngredients.error);
 
   const dispatch = useDispatch();
 
@@ -36,7 +37,7 @@ const BurguerBuilder = (props) => {
 
   const [purchasing, setPurchasing] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  //const [error, setError] = useState(null);
   const navigate = useNavigate();
 
   const purchaseHandler = () => {
@@ -48,14 +49,6 @@ const BurguerBuilder = (props) => {
   };
 
   useEffect(() => {
-    /* axios
-      .get("/ingredients.json")
-      .then((response) => {
-        return setIngredients(response.data);
-      })
-      .catch((error) => {
-        return setError(error);
-      });*/
     dispatch(fetchIngredients());
   }, []);
 
@@ -107,6 +100,9 @@ const BurguerBuilder = (props) => {
   let burger = error ? <p>Ingredients can't be loaded now!</p> : <Spinner />;
 
   let orderSummary = null;
+  if (ingredients === null) {
+    burger = <Spinner />;
+  }
 
   if (ingredients) {
     burger = (
