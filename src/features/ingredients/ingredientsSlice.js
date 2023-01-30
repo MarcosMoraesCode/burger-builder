@@ -1,14 +1,22 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import axios from "../../axiosOrders";
 
 const initialState = {
-  ingredients: {
-    salad: 0,
-    bacon: 0,
-    meat: 0,
-    cheese: 0,
-  },
+  ingredients: {},
   price: 4,
 };
+
+export const fetchIngredients = createAsyncThunk(
+  "ingredients/fetchIngredients",
+  async () => {
+    try {
+      const response = await axios.get("/ingredients.json");
+      return response.data;
+    } catch (error) {
+      return error.message;
+    }
+  }
+);
 
 export const ingredientsSlice = createSlice({
   name: "initialIngredients",
@@ -29,6 +37,11 @@ export const ingredientsSlice = createSlice({
       state.ingredients.salad = 0;
       state.price = 4;
     },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(fetchIngredients.fulfilled, (state, action) => {
+      state.ingredients = action.payload;
+    });
   },
 });
 

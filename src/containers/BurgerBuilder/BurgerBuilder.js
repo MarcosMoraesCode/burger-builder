@@ -11,6 +11,7 @@ import withErrorHandler from "../../hoc/withErrorHandler/withErrorHandler";
 import { useSelector, useDispatch } from "react-redux";
 import {
   addIngredients,
+  fetchIngredients,
   removeIngredients,
 } from "../../features/ingredients/ingredientsSlice";
 
@@ -46,16 +47,17 @@ const BurguerBuilder = (props) => {
     return setPurchasing(false);
   };
 
-  /*useEffect(() => {
-    axios
+  useEffect(() => {
+    /* axios
       .get("/ingredients.json")
       .then((response) => {
         return setIngredients(response.data);
       })
       .catch((error) => {
         return setError(error);
-      });
-  }, []);*/
+      });*/
+    dispatch(fetchIngredients());
+  }, []);
 
   const purchaseContinuedHandler = () => {
     setLoading(true);
