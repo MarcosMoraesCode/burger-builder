@@ -12,6 +12,7 @@ import {
   contactDataSlice,
   fetchContactData,
   rejected,
+  success,
 } from "../../../features/contactData/contactDataSlice";
 
 const ContactData = (props) => {
@@ -135,9 +136,11 @@ const ContactData = (props) => {
     await dispatch(fetchContactData(order))
       .unwrap()
       .then((res) => {
-        setLoading(true);
+        setLoading(false);
         if (res === false) {
           setError(true);
+        } else {
+          dispatch(success());
         }
         setTimeout(() => setLoading(false), 1000);
       });
@@ -228,8 +231,30 @@ const ContactData = (props) => {
   }
 
   if (orderStatus === "rejeitado") {
-    return (form = <div>DEU RUIM</div>);
+    setTimeout(() => {
+      dispatch(restartIngredients());
+      navigate("/");
+    }, 2500);
+    return (form = (
+      <div className={classes.ContactData}>
+        <p>Something is not working, try again later.</p>
+      </div>
+    ));
   }
+
+  if (orderStatus === "success") {
+    setTimeout(() => {
+      dispatch(restartIngredients());
+      navigate("/");
+    }, 2500);
+    return (form = (
+      <div className={classes.ContactData}>
+        <p>Your order is being prepared!.</p>
+        <p>Going back to Home...</p>
+      </div>
+    ));
+  }
+
   return (
     <div className={classes.ContactData}>
       <h4>Entry your contact data</h4>

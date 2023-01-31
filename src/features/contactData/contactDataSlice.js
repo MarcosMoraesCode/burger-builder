@@ -28,6 +28,9 @@ export const contactDataSlice = createSlice({
   name: "contactData",
   initialState,
   reducers: {
+    success: (state, action) => {
+      state.orderStatus = "success";
+    },
     rejected: (state, action) => {
       state.orderStatus = "rejeitado";
     },
@@ -43,6 +46,6 @@ export const contactDataSlice = createSlice({
   },
 });
 
-export const { rejected } = contactDataSlice.actions;
+export const { rejected, success } = contactDataSlice.actions;
 
 export default contactDataSlice.reducer;
