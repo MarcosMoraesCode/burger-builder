@@ -33,44 +33,59 @@ const Auth = (props) => {
     //value.some((char) => typeof char === Number) &&
     //value.some((char) => typeof char === String);
 
-    if (checkInput) {
-      if (firstCheck && secondCheck) {
-        return true;
+    switch (inputElement) {
+      case "user-login": {
+        if (firstCheck && secondCheck) {
+          return true;
+        } else {
+          return false;
+        }
       }
-      return false;
-    } else if (firstCheck && secondCheck) {
-      //&& thirdCheck) {
-      return true;
+      case "user-password": {
+        if (firstCheck && secondCheck) {
+          return true;
+        } else {
+          return false;
+        }
+      }
+      default:
+        console.log("Nothing happens");
+        break;
     }
-    return false;
   };
 
   const inputChangedHandler = (event, inputElement) => {
     switch (inputElement) {
       case "user-login":
         {
+          console.log("usuario é valido", userLogin.isValid);
           setUserLogin({
             ...userLogin,
-            value: event.target.value,
-            isValid: checkValidation(inputElement, event.target.value),
+            value: event.currentTarget.value,
+            isValid: checkValidation(inputElement, event.currentTarget.value),
             isTouched: true,
           });
         }
         break;
       case "user-password":
         {
+          console.log("senha é valida", userPassword.isValid);
           setUserPassword({
             ...userPassword,
-            value: event.target.value,
-            isValid: checkValidation(inputElement, event.target.value),
+            value: event.currentTarget.value,
+            isValid: checkValidation(inputElement, event.currentTarget.value),
             isTouched: true,
           });
         }
         break;
       default:
-        //never happens
+        console.log("passa aqui");
         break;
     }
+  };
+
+  const submitAccountHandler = () => {
+    //PROVAVEL DISPATCH DE ACCOUNT
   };
 
   return (
@@ -101,6 +116,13 @@ const Auth = (props) => {
           label={"Password"}
           elementConfig={userPassword.elementConfig}
         />
+        <Button
+          btnType="Success"
+          clicked={submitAccountHandler}
+          disabled={userLogin.isValid && userPassword.isValid ? false : true}
+        >
+          Sign in
+        </Button>
       </form>
     </div>
   );
