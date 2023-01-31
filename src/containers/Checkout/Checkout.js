@@ -2,20 +2,24 @@ import React, { useState } from "react";
 import { useNavigate, useLocation, Routes, Route } from "react-router-dom";
 import CheckoutSummary from "../../components/Order/CheckoutSummary/CheckoutSummary";
 import ContactData from "../Checkout/ContactData/ContactData";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { restartIngredients } from "../../features/ingredients/ingredientsSlice";
 
 const Checkout = () => {
   const ingredients = useSelector(
     (state) => state.initialIngredients.ingredients
   );
+  const totalPrice = useSelector((state) => state.initialIngredients.price);
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const checkoutContinuedHandler = () => {
     navigate("/checkout/contact-data");
   };
   const checkoutCancelledHandler = () => {
-    navigate(-1);
+    dispatch(restartIngredients());
+    navigate("/");
   };
 
   return (

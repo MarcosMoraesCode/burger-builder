@@ -76,7 +76,7 @@ const Auth = (props) => {
   return (
     <div className={classes.Auth}>
       <form className={classes.Form}>
-        <h4>Create your account</h4>
+        <h2>SIGN IN</h2>
 
         <Input
           key={userLogin.id}
