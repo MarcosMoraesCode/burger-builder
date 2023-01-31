@@ -49,8 +49,7 @@ export const ingredientsSlice = createSlice({
       state.ingredients = action.payload;
     });
     builder.addCase(fetchIngredients.rejected, (state) => {
-      console.log("passou aqui");
-      state.error = true;
+      //state.error = true;
     });
   },
 });
