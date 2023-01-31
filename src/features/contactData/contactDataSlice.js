@@ -3,8 +3,6 @@ import {
   createAsyncThunk,
   isRejectedWithValue,
 } from "@reduxjs/toolkit";
-import { getDefaultMiddleware } from "@reduxjs/toolkit";
-import { useReducer } from "react";
 import axios from "../../axiosOrders";
 
 const initialState = {
