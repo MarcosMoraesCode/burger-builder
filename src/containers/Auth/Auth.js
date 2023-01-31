@@ -103,13 +103,13 @@ const Auth = (props) => {
   const submitAccountHandler = (event) => {
     event.preventDefault();
 
-    createUserWithEmailAndPassword(userLogin.value, userPassword.value).then(
-      (res) => {
+    createUserWithEmailAndPassword(userLogin.value, userPassword.value)
+      .then((res) => {
         if (res) {
           alert("DEU BOM");
         }
-      }
-    );
+      })
+      .catch(alert(error.message));
 
     /*setLoading(true);
     dispatch(fetchToken(data))
