@@ -194,7 +194,7 @@ const Auth = (props) => {
       >
         {isSignUp ? "Already registered" : "Create an account"}
       </Button>
-      <Button
+      {/*<Button
         type={"button"}
         clicked={
           userStatus.tokenId
@@ -210,7 +210,7 @@ const Auth = (props) => {
         btnType="Success"
       >
         {userStatus.tokenId ? "Logout" : "you logged out"}
-      </Button>
+      </Button>*/}
     </form>
   );
 

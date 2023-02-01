@@ -10,15 +10,18 @@ const initialState = {
   test: null,
 };
 
-export const fetchOrders = createAsyncThunk("orders/fetchOrders", async () => {
-  try {
-    const response = await axios.get("/orders.json");
+export const fetchOrders = createAsyncThunk(
+  "orders/fetchOrders",
+  async (token) => {
+    try {
+      const response = await axios.get("/orders.json?auth=" + token);
 
-    return response.data;
-  } catch (err) {
-    return isRejectedWithValue(err);
+      return response.data;
+    } catch (err) {
+      return isRejectedWithValue(err);
+    }
   }
-});
+);
 
 export const ordersSlice = createSlice({
   name: "initialOrders",
