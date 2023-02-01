@@ -17,13 +17,15 @@ export const tokenSlice = createSlice({
     getUserInfo: (state, action) => {
       state.userId = action.payload.localId;
       state.tokenId = action.payload.idToken;
-      console.log(state.userId);
-      console.log(state.tokenId);
+    },
+    cleanUserInfo: (state, action) => {
+      state.userId = null;
+      state.tokenId = null;
     },
   },
   extraReducers: (builder) => {},
 });
 
-export const { getUserInfo } = tokenSlice.actions;
+export const { getUserInfo, cleanUserInfo } = tokenSlice.actions;
 
 export default tokenSlice.reducer;

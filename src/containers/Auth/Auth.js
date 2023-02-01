@@ -1,16 +1,19 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Input from "../../components/UI/Input/Input";
 import Button from "../../components/UI/Button/Button";
 import classes from "./Auth.css";
-
+import { useSignOut } from "react-firebase-hooks/auth";
 import Spinner from "../../components/UI/Spinner/Spinner";
 import {
   useCreateUserWithEmailAndPassword,
   useSignInWithEmailAndPassword,
 } from "react-firebase-hooks/auth";
 import { auth } from "../../services/firebaseConfig";
-import { useDispatch } from "react-redux";
-import { getUserInfo } from "../../features/Authenticate/authenticateSlice";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  getUserInfo,
+  cleanUserInfo,
+} from "../../features/Authenticate/authenticateSlice";
 
 const Auth = (props) => {
   const [
@@ -22,6 +25,8 @@ const Auth = (props) => {
 
   const [signInWithEmailAndPassword, signInUser, signInLoading, signInError] =
     useSignInWithEmailAndPassword(auth);
+
+  const userStatus = useSelector((state) => state.token);
 
   const [isSignUp, setIsSignUp] = useState(true);
 
@@ -45,6 +50,7 @@ const Auth = (props) => {
       placeholder: "Insert a password between 4 and 10 characters.",
     },
   });
+  const [signOut, loading, error] = useSignOut(auth);
 
   const dispatch = useDispatch();
   const checkValidation = (inputElement, value) => {
@@ -75,10 +81,13 @@ const Auth = (props) => {
     }
   };
 
+  useEffect(() => {
+    console.log(userStatus);
+  }, [userStatus]);
+
   const inputChangedHandler = (event, inputElement) => {
     switch (inputElement) {
       case "user-login":
-        console.log("usuario é valido", userLogin.isValid);
         setUserLogin({
           ...userLogin,
           value: event.currentTarget.value,
@@ -88,7 +97,6 @@ const Auth = (props) => {
 
         break;
       case "user-password":
-        console.log("senha é valida", userPassword.isValid);
         setUserPassword({
           ...userPassword,
           value: event.currentTarget.value,
@@ -110,9 +118,9 @@ const Auth = (props) => {
       createUserWithEmailAndPassword(userLogin.value, userPassword.value).then(
         (res) => {
           if (res) {
-            alert("CRIADO COM SUCESSO");
+            alert("SUCCESS");
           } else {
-            alert(signUpError);
+            alert("SOMETHING DIDN'T WORK WHILE TRYING TO CREATE YOUR ACCOUNT");
           }
         }
       );
@@ -120,15 +128,16 @@ const Auth = (props) => {
       signInWithEmailAndPassword(userLogin.value, userPassword.value).then(
         (res) => {
           if (res) {
+            //console.log(res);
             dispatch(
               getUserInfo({
                 localId: res._tokenResponse.localId,
                 idToken: res._tokenResponse.idToken,
               })
             );
-            alert("LOGADO COM SUCESSO");
+            alert("SUCESS ON LOGIN");
           } else {
-            alert(signInError);
+            alert("SOMETHING DIDN'T WORK WHILE TRYING TO LOGIN");
           }
         }
       );
@@ -178,11 +187,33 @@ const Auth = (props) => {
         {isSignUp ? "Sign up" : "Sign in"}
       </Button>
 
-      <Button clicked={(event) => switchSignInHandler(event)} btnType="Danger">
+      <Button
+        type={"button"}
+        clicked={(event) => switchSignInHandler(event)}
+        btnType="Danger"
+      >
         {isSignUp ? "Already registered" : "Create an account"}
+      </Button>
+      <Button
+        type={"button"}
+        clicked={
+          userStatus.tokenId
+            ? async () => {
+                const success = await signOut();
+                if (success) {
+                  alert("You are sign out");
+                  dispatch(cleanUserInfo());
+                }
+              }
+            : null
+        }
+        btnType="Success"
+      >
+        {userStatus.tokenId ? "Logout" : "you logged out"}
       </Button>
     </form>
   );
+
   if (signInLoading || signUpLoading) {
     form = <Spinner />;
   }
