@@ -9,6 +9,8 @@ import {
   useSignInWithEmailAndPassword,
 } from "react-firebase-hooks/auth";
 import { auth } from "../../services/firebaseConfig";
+import { useDispatch } from "react-redux";
+import { getUserInfo } from "../../features/Authenticate/authenticateSlice";
 
 const Auth = (props) => {
   const [
@@ -44,6 +46,7 @@ const Auth = (props) => {
     },
   });
 
+  const dispatch = useDispatch();
   const checkValidation = (inputElement, value) => {
     let firstCheck = value.trim() !== "";
     let secondCheck = value.length < 20 && value.length >= 6;
@@ -117,7 +120,12 @@ const Auth = (props) => {
       signInWithEmailAndPassword(userLogin.value, userPassword.value).then(
         (res) => {
           if (res) {
-            console.log(res._tokenResponse);
+            dispatch(
+              getUserInfo({
+                localId: res._tokenResponse.localId,
+                idToken: res._tokenResponse.idToken,
+              })
+            );
             alert("LOGADO COM SUCESSO");
           } else {
             alert(signInError);
