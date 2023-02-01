@@ -2,19 +2,27 @@ import React, { useState } from "react";
 import Input from "../../components/UI/Input/Input";
 import Button from "../../components/UI/Button/Button";
 import classes from "./Auth.css";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchToken } from "../../features/Authenticate/authenticateSlice";
+
 import Spinner from "../../components/UI/Spinner/Spinner";
-import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
+import {
+  useCreateUserWithEmailAndPassword,
+  useSignInWithEmailAndPassword,
+} from "react-firebase-hooks/auth";
 import { auth } from "../../services/firebaseConfig";
 
 const Auth = (props) => {
-  const returnToken = useSelector((state) => state.token.returnSecureToken);
-  const dispatch = useDispatch();
-  const [createUserWithEmailAndPassword, user, loading, error] =
-    useCreateUserWithEmailAndPassword(auth);
+  const [
+    createUserWithEmailAndPassword,
+    signUpUser,
+    signUpLoading,
+    signUpError,
+  ] = useCreateUserWithEmailAndPassword(auth);
 
-  const [isLoading, setIsLoading] = useState(false);
+  const [signInWithEmailAndPassword, signInUser, signInLoading, signInError] =
+    useSignInWithEmailAndPassword(auth);
+
+  const [isSignUp, setIsSignUp] = useState(true);
+
   const [userLogin, setUserLogin] = useState({
     id: "user-login",
     value: "",
@@ -35,16 +43,10 @@ const Auth = (props) => {
       placeholder: "Insert a password between 4 and 10 characters.",
     },
   });
-  let customToken = {
-    email: userLogin.value,
-    password: userPassword.value,
-    returnSecureToken: returnToken,
-  };
 
   const checkValidation = (inputElement, value) => {
-    let checkInput = inputElement === "user-login";
     let firstCheck = value.trim() !== "";
-    let secondCheck = value.length < 20 && value.length >= 4;
+    let secondCheck = value.length < 20 && value.length >= 6;
     //let thirdCheck = true;
     //value.some((char) => typeof char === Number) &&
     //value.some((char) => typeof char === String);
@@ -73,26 +75,24 @@ const Auth = (props) => {
   const inputChangedHandler = (event, inputElement) => {
     switch (inputElement) {
       case "user-login":
-        {
-          console.log("usuario é valido", userLogin.isValid);
-          setUserLogin({
-            ...userLogin,
-            value: event.currentTarget.value,
-            isValid: checkValidation(inputElement, event.currentTarget.value),
-            isTouched: true,
-          });
-        }
+        console.log("usuario é valido", userLogin.isValid);
+        setUserLogin({
+          ...userLogin,
+          value: event.currentTarget.value,
+          isValid: checkValidation(inputElement, event.currentTarget.value),
+          isTouched: true,
+        });
+
         break;
       case "user-password":
-        {
-          console.log("senha é valida", userPassword.isValid);
-          setUserPassword({
-            ...userPassword,
-            value: event.currentTarget.value,
-            isValid: checkValidation(inputElement, event.currentTarget.value),
-            isTouched: true,
-          });
-        }
+        console.log("senha é valida", userPassword.isValid);
+        setUserPassword({
+          ...userPassword,
+          value: event.currentTarget.value,
+          isValid: checkValidation(inputElement, event.currentTarget.value),
+          isTouched: true,
+        });
+
         break;
       default:
         console.log("passa aqui");
@@ -103,34 +103,39 @@ const Auth = (props) => {
   const submitAccountHandler = (event) => {
     event.preventDefault();
 
-    createUserWithEmailAndPassword(userLogin.value, userPassword.value)
-      .then((res) => {
-        if (res) {
-          alert("DEU BOM");
+    if (isSignUp) {
+      createUserWithEmailAndPassword(userLogin.value, userPassword.value).then(
+        (res) => {
+          if (res) {
+            alert("CRIADO COM SUCESSO");
+          } else {
+            alert(signUpError);
+          }
         }
-      })
-      .catch(alert(error.message));
+      );
+    } else {
+      signInWithEmailAndPassword(userLogin.value, userPassword.value).then(
+        (res) => {
+          if (res) {
+            console.log(res._tokenResponse);
+            alert("LOGADO COM SUCESSO");
+          } else {
+            alert(signInError);
+          }
+        }
+      );
+      //LOGAR USUÁRIO JÁ CADASTRADO
+    }
+  };
 
-    /*setLoading(true);
-    dispatch(fetchToken(data))
-      .unwrap()
-      .then((res) => {
-        setLoading(false);
-        if (res === false) {
-          // console.log("deu ruim");
-        } else {
-          console.log("deu bom");
-        }
-        setTimeout(() => setLoading(false), 5000);
-      })
-      .catch((err) => {
-        console.log("esse é o erro:", err);
-      });*/
+  const switchSignInHandler = (event) => {
+    event.preventDefault();
+    setIsSignUp(!isSignUp);
   };
 
   let form = (
     <form className={classes.Form}>
-      <h2>SIGN IN</h2>
+      <h2>{isSignUp ? "SIGN UP" : "SIGN IN"}</h2>
 
       <Input
         key={userLogin.id}
@@ -162,11 +167,15 @@ const Auth = (props) => {
         disabled={userLogin.isValid && userPassword.isValid ? false : true}
         type="submit"
       >
-        Sign in
+        {isSignUp ? "Sign up" : "Sign in"}
+      </Button>
+
+      <Button clicked={(event) => switchSignInHandler(event)} btnType="Danger">
+        {isSignUp ? "Already registered" : "Create an account"}
       </Button>
     </form>
   );
-  if (loading) {
+  if (signInLoading || signUpLoading) {
     form = <Spinner />;
   }
 
