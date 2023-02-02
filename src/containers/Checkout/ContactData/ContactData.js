@@ -24,6 +24,7 @@ const ContactData = (props) => {
   const orderStatus = useSelector((state) => state.contactData.orderStatus);
   const dispatch = useDispatch();
   const token = useSelector((state) => state.token.tokenId);
+  const userId = useSelector((state) => state.token.userId);
 
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
@@ -120,6 +121,7 @@ const ContactData = (props) => {
         country: userData.country.value,
       },
       email: userData.email.value,
+      userId: userId,
     },
     deliveyMethod: userData.deliveryMethod.value,
   };
