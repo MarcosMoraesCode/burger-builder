@@ -5,8 +5,9 @@ import {
 } from "@reduxjs/toolkit";
 
 const initialState = {
-  userId: null,
-  tokenId: null,
+  userId: localStorage.getItem("userId"),
+  tokenId: localStorage.getItem("token"),
+  expirationDate: localStorage.getItem("expirationDate"),
   error: null,
 };
 

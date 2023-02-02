@@ -32,10 +32,7 @@ const BurguerBuilder = (props) => {
 
   const dispatch = useDispatch();
 
-  //const [ingredients, setIngredients] = useState(null);
-
   const totalPrice = useSelector((state) => state.initialIngredients.price);
-  // const [totalPrice, setTotalPrice] = useState(4);
 
   const [purchasing, setPurchasing] = useState(false);
   const [loading, setLoading] = useState(false);

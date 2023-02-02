@@ -33,6 +33,8 @@ const Auth = (props) => {
 
   const [isSignUp, setIsSignUp] = useState(true);
 
+  const totalPrice = useSelector((state) => state.initialIngredients.price);
+
   const [userLogin, setUserLogin] = useState({
     id: "user-login",
     value: "",
@@ -131,15 +133,25 @@ const Auth = (props) => {
       signInWithEmailAndPassword(userLogin.value, userPassword.value).then(
         (res) => {
           if (res) {
-            //console.log(res);
             dispatch(
               getUserInfo({
                 localId: res._tokenResponse.localId,
                 idToken: res._tokenResponse.idToken,
               })
             );
+            let expirationDate = new Date().getTime() + 60000;
+
+            console.log("expiration", expirationDate);
+            let tokenId = res._tokenResponse.idToken;
+            localStorage.setItem("token", tokenId);
+            localStorage.setItem("expirationDate", expirationDate);
+            localStorage.setItem("userId", res._tokenResponse.localId);
             alert("SUCESS ON LOGIN");
-            navigate("/checkout");
+            if (totalPrice > 4) {
+              navigate("/checkout");
+            } else {
+              navigate("/");
+            }
           } else {
             alert("SOMETHING DIDN'T WORK WHILE TRYING TO LOGIN");
           }

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Aux from "../Auxiliary/Auxiliary";
 import classes from "./Layout.css";
 import Toolbar from "../../components/Navigation/Toolbar/Toolbar";
@@ -11,19 +11,34 @@ import { cleanUserInfo } from "../../features/Authenticate/authenticateSlice";
 
 const Layout = (props) => {
   const [showSideDrawer, setShowSideDrawer] = useState(false);
-  const token = useSelector((state) => state.token.tokenId);
+  const token = useSelector((state) => state.token);
   const dispatch = useDispatch();
   const [signOut, loading, error] = useSignOut(auth);
   const navigate = useNavigate();
 
+  useEffect(() => {
+    console.log(
+      "Nova data: ",
+      new Date().getTime(),
+      "expirationDate: ",
+      token.expirationDate
+    );
+    if (new Date().getTime() > token.expirationDate) {
+      logout();
+    }
+  }, []);
+
   const logout = async () => {
     const success = await signOut();
-    console.log(success);
+
     if (success) {
-      alert("Logout succeed!");
+      console.log("Logout succeed!");
       dispatch(cleanUserInfo());
-      console.log("token layout", token);
+
       navigate("/");
+      localStorage.removeItem("token");
+      localStorage.removeItem("expirationDate");
+      localStorage.removeItem("userId");
     }
   };
 
@@ -38,10 +53,9 @@ const Layout = (props) => {
   };
   return (
     <Aux>
-      {console.log("token", token)}
       <Toolbar
         logoutCase={logout}
-        isAuth={token ? true : false}
+        isAuth={token.tokenId ? true : false}
         sideDrawerClicked={sideDrawerToggleHandler}
       />
       <SideDrawer closed={sideDrawerClosedHandler} open={showSideDrawer} />
