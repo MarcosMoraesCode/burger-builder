@@ -3,6 +3,7 @@ import BurguerBuilder from "./containers/BurgerBuilder/BurgerBuilder";
 import Checkout from "./containers/Checkout/Checkout";
 import Orders from "./containers/Orders/Orders";
 import Auth from "./containers/Auth/Auth";
+import Logout from "./containers/Auth/Logout/Logout";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
             <Route path="/checkout/*" exact element={<Checkout />} />
             <Route path="/orders" exact element={<Orders />} />
             <Route path="/sign-in" exact element={<Auth />} />
+            <Route path="/logout" exact element={<Logout />} />
           </Routes>
         </Layout>
       </BrowserRouter>

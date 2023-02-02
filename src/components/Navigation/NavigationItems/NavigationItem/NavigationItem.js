@@ -6,6 +6,7 @@ const navigationItem = (props) => {
   return (
     <li className={classes.NavigationItem}>
       <NavLink
+        onClick={props.action}
         to={props.link}
         className={(navData) => (navData.isActive ? classes.active : "")}
       >

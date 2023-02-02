@@ -250,6 +250,7 @@ const ContactData = (props) => {
     setTimeout(() => {
       dispatch(restartIngredients());
       navigate("/");
+      dispatch(reset());
     }, 2500);
     return (form = (
       <div className={classes.ContactData}>
