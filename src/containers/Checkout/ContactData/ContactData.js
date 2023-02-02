@@ -13,6 +13,7 @@ import {
   fetchContactData,
   rejected,
   success,
+  reset,
 } from "../../../features/contactData/contactDataSlice";
 
 const ContactData = (props) => {
@@ -22,6 +23,7 @@ const ContactData = (props) => {
   const totalPrice = useSelector((state) => state.initialIngredients.price);
   const orderStatus = useSelector((state) => state.contactData.orderStatus);
   const dispatch = useDispatch();
+  const token = useSelector((state) => state.token.tokenId);
 
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
@@ -133,7 +135,8 @@ const ContactData = (props) => {
 
   const submitOrderHandler = async () => {
     setLoading(true);
-    await dispatch(fetchContactData(order))
+
+    await dispatch(fetchContactData({ token: token, order: order }))
       .unwrap()
       .then((res) => {
         setLoading(false);
@@ -233,6 +236,7 @@ const ContactData = (props) => {
   if (orderStatus === "rejeitado") {
     setTimeout(() => {
       dispatch(restartIngredients());
+      dispatch(reset());
       navigate("/");
     }, 2500);
     return (form = (

@@ -3,6 +3,7 @@ import {
   createAsyncThunk,
   isRejectedWithValue,
 } from "@reduxjs/toolkit";
+
 import axios from "../../axiosOrders";
 
 const initialState = {
@@ -11,9 +12,13 @@ const initialState = {
 
 export const fetchContactData = createAsyncThunk(
   "contactData/fetchContactData",
-  async (order) => {
+  async (action) => {
     try {
-      const response = await axios.post("/orders.json", order);
+      console.log(action.order, action.token);
+      const response = await axios.post(
+        "/orders.json?auth=" + action.token,
+        action.order
+      );
 
       return response.data;
     } catch (err) {
@@ -32,6 +37,9 @@ export const contactDataSlice = createSlice({
     rejected: (state, action) => {
       state.orderStatus = "rejeitado";
     },
+    reset: (state, action) => {
+      state.orderStatus = null;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(fetchContactData.fulfilled, (state, action) => {
@@ -44,6 +52,6 @@ export const contactDataSlice = createSlice({
   },
 });
 
-export const { rejected, success } = contactDataSlice.actions;
+export const { rejected, success, reset } = contactDataSlice.actions;
 
 export default contactDataSlice.reducer;
