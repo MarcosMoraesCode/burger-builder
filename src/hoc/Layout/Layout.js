@@ -8,6 +8,7 @@ import { useNavigate } from "react-router";
 import { useSignOut } from "react-firebase-hooks/auth";
 import { auth } from "../../services/firebaseConfig";
 import { cleanUserInfo } from "../../features/Authenticate/authenticateSlice";
+import { restartIngredients } from "../../features/ingredients/ingredientsSlice";
 
 const Layout = (props) => {
   const [showSideDrawer, setShowSideDrawer] = useState(false);
@@ -17,14 +18,15 @@ const Layout = (props) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    console.log(
+    /*console.log(
       "Nova data: ",
       new Date().getTime(),
       "expirationDate: ",
       token.expirationDate
-    );
+    );*/
     if (new Date().getTime() > token.expirationDate) {
       logout();
+      dispatch(restartIngredients());
     }
   }, []);
 

@@ -14,7 +14,7 @@ const OrderSummary = (props) => {
   });
 
   useEffect(() => {
-    return console.log("Renderizou");
+    //return console.log("Renderizou");
   });
 
   return (

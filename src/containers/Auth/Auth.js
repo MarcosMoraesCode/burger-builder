@@ -87,7 +87,7 @@ const Auth = (props) => {
   };
 
   useEffect(() => {
-    console.log(userStatus);
+    //console.log(userStatus);
   }, [userStatus]);
 
   const inputChangedHandler = (event, inputElement) => {
@@ -139,9 +139,8 @@ const Auth = (props) => {
                 idToken: res._tokenResponse.idToken,
               })
             );
-            let expirationDate = new Date().getTime() + 60000;
+            let expirationDate = new Date().getTime() + 20000;
 
-            console.log("expiration", expirationDate);
             let tokenId = res._tokenResponse.idToken;
             localStorage.setItem("token", tokenId);
             localStorage.setItem("expirationDate", expirationDate);

@@ -48,10 +48,12 @@ const BurguerBuilder = (props) => {
   };
 
   useEffect(() => {
-    console.log("carregou");
+    //console.log("carregou");
+    console.log("renderizou");
     if (!token) {
       dispatch(fetchIngredients());
     }
+    dispatch(fetchIngredients());
   }, []);
 
   const purchaseContinuedHandler = () => {
