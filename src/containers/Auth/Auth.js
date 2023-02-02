@@ -14,6 +14,7 @@ import {
   getUserInfo,
   cleanUserInfo,
 } from "../../features/Authenticate/authenticateSlice";
+import { useNavigate } from "react-router";
 
 const Auth = (props) => {
   const [
@@ -22,6 +23,8 @@ const Auth = (props) => {
     signUpLoading,
     signUpError,
   ] = useCreateUserWithEmailAndPassword(auth);
+
+  const navigate = useNavigate();
 
   const [signInWithEmailAndPassword, signInUser, signInLoading, signInError] =
     useSignInWithEmailAndPassword(auth);
@@ -136,12 +139,12 @@ const Auth = (props) => {
               })
             );
             alert("SUCESS ON LOGIN");
+            navigate("/checkout");
           } else {
             alert("SOMETHING DIDN'T WORK WHILE TRYING TO LOGIN");
           }
         }
       );
-      //LOGAR USUÁRIO JÁ CADASTRADO
     }
   };
 

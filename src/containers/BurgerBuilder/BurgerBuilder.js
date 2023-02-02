@@ -28,6 +28,8 @@ const BurguerBuilder = (props) => {
   );
   const error = useSelector((state) => state.initialIngredients.error);
 
+  const token = useSelector((state) => state.token.tokenId);
+
   const dispatch = useDispatch();
 
   //const [ingredients, setIngredients] = useState(null);
@@ -49,7 +51,10 @@ const BurguerBuilder = (props) => {
   };
 
   useEffect(() => {
-    dispatch(fetchIngredients());
+    console.log("carregou");
+    if (!token) {
+      dispatch(fetchIngredients());
+    }
   }, []);
 
   const purchaseContinuedHandler = () => {
@@ -115,6 +120,8 @@ const BurguerBuilder = (props) => {
           price={totalPrice}
           purchasable={updatePurchase(ingredients)}
           ordered={purchaseHandler}
+          goToSignIn={() => navigate("/sign-in")}
+          isAuth={token}
         />
       </Aux>
     );

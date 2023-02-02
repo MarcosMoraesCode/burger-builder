@@ -47,6 +47,7 @@ export const ingredientsSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(fetchIngredients.fulfilled, (state, action) => {
       state.ingredients = action.payload;
+      state.price = 4;
     });
     builder.addCase(fetchIngredients.rejected, (state) => {
       //state.error = true;
