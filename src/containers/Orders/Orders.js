@@ -21,19 +21,35 @@ const Orders = () => {
   }, []);
 
   if (orders) {
-    let updatedOrders = orders.map((order, index) => {
-      return (
-        <Order
-          key={index}
-          salad={order.ingredients.salad}
-          bacon={order.ingredients.bacon}
-          meat={order.ingredients.meat}
-          cheese={order.ingredients.cheese}
-          price={order.price}
-        />
-      );
-    });
-    ordersContainer = updatedOrders;
+    console.log(orders.length);
+    let ordersSize = orders.length;
+    switch (ordersSize) {
+      case 0:
+        console.log("caso 0");
+        ordersContainer = (
+          <div>
+            <p>You don't have any order delivered yet!</p>
+          </div>
+        );
+        break;
+      default:
+        console.log("caso 1");
+        let updatedOrders = orders.map((order, index) => {
+          return (
+            <Order
+              key={index}
+              salad={order.ingredients.salad}
+              bacon={order.ingredients.bacon}
+              meat={order.ingredients.meat}
+              cheese={order.ingredients.cheese}
+              price={order.price}
+            />
+          );
+        });
+        ordersContainer = updatedOrders;
+        break;
+        break;
+    }
   }
 
   return <div>{ordersContainer}</div>;
