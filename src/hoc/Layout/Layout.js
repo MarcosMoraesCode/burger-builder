@@ -62,7 +62,12 @@ const Layout = (props) => {
         isAuth={token.tokenId ? true : false}
         sideDrawerClicked={sideDrawerToggleHandler}
       />
-      <SideDrawer closed={sideDrawerClosedHandler} open={showSideDrawer} />
+      <SideDrawer
+        logoutCase={logout}
+        isAuth={token.tokenId ? true : false}
+        closed={sideDrawerClosedHandler}
+        open={showSideDrawer}
+      />
       <main className={classes.Content}>{props.children}</main>
     </Aux>
   );

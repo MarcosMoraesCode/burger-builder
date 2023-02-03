@@ -5,6 +5,7 @@ import Order from "../../components/Order/Order";
 import withErrorHandler from "../../hoc/withErrorHandler/withErrorHandler";
 import Spinner from "../../components/UI/Spinner/Spinner";
 import { addOrder, fetchOrders } from "../../features/orders/ordersSlice";
+import classes from "./Orders.css";
 
 const Orders = () => {
   const orders = useSelector((state) => state.initialOrders.orders);
@@ -51,7 +52,7 @@ const Orders = () => {
     }
   }
 
-  return <div>{ordersContainer}</div>;
+  return <div className={classes.Orders}>{ordersContainer}</div>;
 };
 
 export default withErrorHandler(Orders, axios);
