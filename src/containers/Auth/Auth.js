@@ -139,7 +139,7 @@ const Auth = (props) => {
                 idToken: res._tokenResponse.idToken,
               })
             );
-            let expirationDate = new Date().getTime() + 20000;
+            let expirationDate = new Date().getTime() + 2000000;
 
             let tokenId = res._tokenResponse.idToken;
             localStorage.setItem("token", tokenId);

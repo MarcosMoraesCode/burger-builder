@@ -9,6 +9,7 @@ import { addOrder, fetchOrders } from "../../features/orders/ordersSlice";
 const Orders = () => {
   const orders = useSelector((state) => state.initialOrders.orders);
   const token = useSelector((state) => state.token.tokenId);
+  const userId = useSelector((state) => state.token.userId);
   //const [orders, setOrders] = useState([]);
 
   const dispatch = useDispatch();
@@ -16,7 +17,7 @@ const Orders = () => {
   let ordersContainer = <Spinner />;
 
   useEffect(() => {
-    dispatch(fetchOrders(token));
+    dispatch(fetchOrders({ token: token, userId: userId }));
   }, []);
 
   if (orders) {
