@@ -30,6 +30,8 @@ const BurguerBuilder = (props) => {
 
   const token = useSelector((state) => state.token.tokenId);
 
+  //teste
+
   const dispatch = useDispatch();
 
   const totalPrice = useSelector((state) => state.initialIngredients.price);
@@ -48,12 +50,14 @@ const BurguerBuilder = (props) => {
   };
 
   useEffect(() => {
-    //console.log("carregou");
-    console.log("renderizou");
-    if (!token) {
+    //console.log("renderizou");
+
+    if (!token && localStorage.getItem("ingredients") === null) {
       dispatch(fetchIngredients());
     }
-    dispatch(fetchIngredients());
+    if (localStorage.getItem("ingredients") === null) {
+      dispatch(fetchIngredients());
+    }
   }, []);
 
   const purchaseContinuedHandler = () => {
@@ -133,7 +137,7 @@ const BurguerBuilder = (props) => {
           ingredients={ingredients}
           purchaseCanceled={purchaseCancelHandler}
           purchaseContinued={purchaseContinuedHandler}
-          price={totalPrice.toFixed(2)}
+          price={Number(totalPrice).toFixed(2)}
         />
       </Aux>
     );

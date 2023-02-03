@@ -41,6 +41,8 @@ const Layout = (props) => {
       localStorage.removeItem("token");
       localStorage.removeItem("expirationDate");
       localStorage.removeItem("userId");
+      localStorage.removeItem("ingredients");
+      localStorage.removeItem("burgerPrice");
     }
   };
 

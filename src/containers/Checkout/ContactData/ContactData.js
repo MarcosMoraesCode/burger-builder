@@ -112,7 +112,7 @@ const ContactData = (props) => {
 
   const order = {
     ingredients: ingredients,
-    price: totalPrice.toFixed(2),
+    price: Number(totalPrice).toFixed(2),
     costumer: {
       name: userData.name.value,
       adress: {

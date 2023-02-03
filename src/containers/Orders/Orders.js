@@ -48,7 +48,6 @@ const Orders = () => {
         });
         ordersContainer = updatedOrders;
         break;
-        break;
     }
   }
 
