@@ -12,7 +12,7 @@ const initialState = {
       : {},
   price:
     localStorage.getItem("burgerPrice") !== null
-      ? localStorage.getItem("burgerPrice")
+      ? Number(localStorage.getItem("burgerPrice"))
       : 4,
   error: null,
 };

@@ -18,7 +18,7 @@ const Checkout = () => {
     navigate("/checkout/contact-data");
   };
   const checkoutCancelledHandler = () => {
-    dispatch(restartIngredients());
+    //dispatch(restartIngredients());
     navigate("/");
   };
 
