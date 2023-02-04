@@ -8,7 +8,7 @@
   box-shadow: 0 2px 1px #ccc;
   margin: 0px auto;
   padding: 10px 0;
-
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
   align-items: center;
 }
 
@@ -25,6 +25,7 @@
   width: 230px;
   display: flex;
   justify-content: center;
+  margin-top: 15px;
 }
 
 .OrderButton:hover,
