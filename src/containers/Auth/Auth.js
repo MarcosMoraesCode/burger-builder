@@ -15,6 +15,7 @@ import {
   cleanUserInfo,
 } from "../../features/Authenticate/authenticateSlice";
 import { useNavigate } from "react-router";
+import Alert from "../../components/Alerts/Alert";
 
 const Auth = (props) => {
   const [
@@ -32,6 +33,7 @@ const Auth = (props) => {
   const userStatus = useSelector((state) => state.token);
 
   const [isSignUp, setIsSignUp] = useState(true);
+  const [alertStatus, setAlertStatus] = useState(null);
 
   const totalPrice = useSelector((state) => state.initialIngredients.price);
 
@@ -123,9 +125,11 @@ const Auth = (props) => {
       createUserWithEmailAndPassword(userLogin.value, userPassword.value).then(
         (res) => {
           if (res) {
-            alert("SUCCESS");
+            //alert("SUCCESS");
+            setAlertStatus("singUp-succeed");
           } else {
-            alert("SOMETHING DIDN'T WORK WHILE TRYING TO CREATE YOUR ACCOUNT");
+            //alert("SOMETHING DIDN'T WORK WHILE TRYING TO CREATE YOUR ACCOUNT");
+            setAlertStatus("singUp-failed");
           }
         }
       );
@@ -145,18 +149,24 @@ const Auth = (props) => {
             localStorage.setItem("token", tokenId);
             localStorage.setItem("expirationDate", expirationDate);
             localStorage.setItem("userId", res._tokenResponse.localId);
-            alert("SUCESS ON LOGIN");
+            setAlertStatus("login-succeed");
+
             if (totalPrice > 4) {
               navigate("/checkout");
+              console.log("passou aq");
             } else {
               navigate("/");
             }
           } else {
-            alert("SOMETHING DIDN'T WORK WHILE TRYING TO LOGIN");
+            setAlertStatus("login-failed");
           }
         }
       );
     }
+  };
+
+  const alertClickedHandler = () => {
+    setAlertStatus(null);
   };
 
   const switchSignInHandler = (event) => {
@@ -208,23 +218,6 @@ const Auth = (props) => {
       >
         {isSignUp ? "Already registered" : "Create an account"}
       </Button>
-      {/*<Button
-        type={"button"}
-        clicked={
-          userStatus.tokenId
-            ? async () => {
-                const success = await signOut();
-                if (success) {
-                  alert("You are sign out");
-                  dispatch(cleanUserInfo());
-                }
-              }
-            : null
-        }
-        btnType="Success"
-      >
-        {userStatus.tokenId ? "Logout" : "you logged out"}
-      </Button>*/}
     </form>
   );
 
@@ -232,7 +225,12 @@ const Auth = (props) => {
     form = <Spinner />;
   }
 
-  return <div className={classes.Auth}>{form}</div>;
+  return (
+    <div className={classes.Auth}>
+      <Alert status={alertStatus} userClicked={alertClickedHandler} />
+      {form}
+    </div>
+  );
 };
 
 export default Auth;
