@@ -63,7 +63,14 @@ const Input = (props) => {
   }
 
   return (
-    <div className={classes.Default}>
+    <div
+      style={{
+        width: "100%",
+        padding: "10px",
+        boxSizing: "border-box",
+        margin: "auto",
+      }}
+    >
       <label className={classes.Label}>{props.label}</label>
 
       {inputElement}
