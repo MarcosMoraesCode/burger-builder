@@ -2,8 +2,9 @@
   width: 100%;
   margin: auto;
   margin-top: 72px;
+  margin-bottom: 0px;
   height: 50vh;
-  padding-top: 40px;
+  padding-top: 60px;
   overflow-y: scroll;
   text-align: center;
   font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;

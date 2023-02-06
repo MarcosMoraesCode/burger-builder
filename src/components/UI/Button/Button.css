@@ -24,3 +24,10 @@
 .Danger {
   color: #944317;
 }
+
+@media (max-width: 400px) {
+  .Button {
+    font-size: 12px;
+    margin: 0px;
+  }
+}
