@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { Suspense, useState } from "react";
 import { useNavigate, useLocation, Routes, Route } from "react-router-dom";
 import CheckoutSummary from "../../components/Order/CheckoutSummary/CheckoutSummary";
 import ContactData from "../Checkout/ContactData/ContactData";
@@ -30,6 +30,7 @@ const Checkout = () => {
         checkoutCancelled={checkoutCancelledHandler}
         checkoutContinued={checkoutContinuedHandler}
       />
+
       <Routes>
         <Route path="/contact-data" exact element={<ContactData />} />
       </Routes>

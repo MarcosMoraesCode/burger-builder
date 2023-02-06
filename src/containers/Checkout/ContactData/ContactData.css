@@ -1,4 +1,4 @@
-.ContactData {
+.Contact {
   width: 300px;
   margin: 20px;
   padding-right: 20px;
@@ -11,14 +11,12 @@
   justify-content: center;
 }
 
-.ContactData Button {
+.Contact Button {
   padding-left: 20px;
 }
-/*
+
 .Input {
   display: block;
   justify-content: center;
   margin: 5px;
-  margin-left: -50px;
 }
-*/

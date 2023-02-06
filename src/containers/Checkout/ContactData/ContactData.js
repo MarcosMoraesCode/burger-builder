@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Button from "../../../components/UI/Button/Button";
-import classes from "./ContactData.css";
+
 import axios from "../../../axiosOrders";
 import Spinner from "../../../components/UI/Spinner/Spinner";
 import Input from "../../../components/UI/Input/Input";
@@ -14,6 +14,7 @@ import {
   success,
   reset,
 } from "../../../features/contactData/contactDataSlice";
+import classes from "./ContactData.css";
 
 const ContactData = (props) => {
   const ingredients = useSelector(
@@ -216,6 +217,7 @@ const ContactData = (props) => {
       {formsElementArray.map((input) => {
         return (
           <Input
+            className={classes.Input}
             key={input.id}
             elementType={input.config.elementType}
             elementConfig={input.config.elementConfig}
@@ -241,7 +243,7 @@ const ContactData = (props) => {
       navigate("/");
     }, 2500);
     return (form = (
-      <div className={classes.ContactData}>
+      <div className={classes.Contact}>
         <p>Something is not working, try again later.</p>
       </div>
     ));
@@ -254,7 +256,7 @@ const ContactData = (props) => {
       dispatch(reset());
     }, 2500);
     return (form = (
-      <div className={classes.ContactData}>
+      <div className={classes.Contact}>
         <p>Your order is being prepared!</p>
         <p>Going back to Home Page...</p>
       </div>
@@ -262,7 +264,7 @@ const ContactData = (props) => {
   }
 
   return (
-    <div className={classes.ContactData}>
+    <div className={classes.Contact}>
       <h4>Entry your contact data</h4>
       {form}
       <Button
