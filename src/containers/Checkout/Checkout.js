@@ -4,6 +4,7 @@ import CheckoutSummary from "../../components/Order/CheckoutSummary/CheckoutSumm
 import ContactData from "../Checkout/ContactData/ContactData";
 import { useDispatch, useSelector } from "react-redux";
 import { restartIngredients } from "../../features/ingredients/ingredientsSlice";
+import classes from "./Checkout.css";
 
 const Checkout = () => {
   const ingredients = useSelector(
@@ -23,7 +24,7 @@ const Checkout = () => {
   };
 
   return (
-    <div>
+    <div className={classes.Checkout}>
       <CheckoutSummary
         ingredients={ingredients}
         checkoutCancelled={checkoutCancelledHandler}
