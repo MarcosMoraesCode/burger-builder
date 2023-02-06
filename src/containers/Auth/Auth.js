@@ -153,7 +153,7 @@ const Auth = (props) => {
 
             if (totalPrice > 4) {
               navigate("/checkout");
-              console.log("passou aq");
+              //console.log("passou aq");
             } else {
               navigate("/");
             }

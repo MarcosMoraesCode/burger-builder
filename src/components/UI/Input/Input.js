@@ -63,8 +63,9 @@ const Input = (props) => {
   }
 
   return (
-    <div className={classes.Input}>
+    <div className={classes.Default}>
       <label className={classes.Label}>{props.label}</label>
+
       {inputElement}
     </div>
   );

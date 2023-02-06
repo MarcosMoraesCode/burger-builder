@@ -1,4 +1,4 @@
-.Input {
+.Default {
   width: 100%;
   padding: 10px;
   box-sizing: border-box;
@@ -17,6 +17,7 @@
   font: inherit;
   background-color: white;
   padding: 6px 10px;
+  margin-top: 6px;
   margin-left: -10 px;
   display: block;
   width: 100%;
