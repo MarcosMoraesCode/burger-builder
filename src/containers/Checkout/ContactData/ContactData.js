@@ -9,7 +9,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { restartIngredients } from "../../../features/ingredients/ingredientsSlice";
 import withErrorHandler from "../../../hoc/withErrorHandler/withErrorHandler";
 import {
-  contactDataSlice,
   fetchContactData,
   rejected,
   success,
@@ -256,8 +255,8 @@ const ContactData = (props) => {
     }, 2500);
     return (form = (
       <div className={classes.ContactData}>
-        <p>Your order is being prepared!.</p>
-        <p>Going back to Home...</p>
+        <p>Your order is being prepared!</p>
+        <p>Going back to Home Page...</p>
       </div>
     ));
   }
